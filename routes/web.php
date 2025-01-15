@@ -5,6 +5,9 @@ use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TodoController::class, 'showAll']);
+Route::post('/', [TodoController::class, 'storeTodo'])->name('todos.store');
+Route::post('/todo/{id}', [TodoController::class, 'eventAction'])->name('todos.eventAction');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

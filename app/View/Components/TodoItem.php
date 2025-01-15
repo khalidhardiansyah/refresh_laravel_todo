@@ -13,7 +13,8 @@ class TodoItem extends Component
      */
     
     public function __construct(
-        public string $label,$id,
+        public string $label,
+        public string $id,
         public bool $done,
 
     )
