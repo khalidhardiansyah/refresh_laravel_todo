@@ -22,9 +22,14 @@
         <div class="px-6 py-10 space-y-3">
             
             <h1 class="mb-5 text-3xl text-center">All Todo List</h1>
-            <form method="POST" action="{{route('todos.store')}}">
+            
+            <form method="POST" action="{{$todo?route('todos.update', $todo->id):route('todos.store')}}">
+
+                @if ($todo)
+                    @method('PATCH')
+                @endif
                 @csrf
-                <x-text-input type="text" name="activity" id="todo" placeholder="Masukan aktivitas" />
+                <x-text-input type="text" name="activity" placeholder="Masukan aktivitas" value="{{ old('todo', $todo ? $todo->todo : '') }}"/>
                 <x-primary-button type="submit">
                     submit
                 </x-primary-button>
@@ -35,6 +40,9 @@
             <div
                 class="flex flex-col items-stretch p-5 overflow-scroll bg-blue-300 rounded-md min-h-96 min-w-96 gap-y-4">
                 <ul class="space-y-4">
+                    
+                  
+                    
                     @foreach ($todos as $item)
                         <li>
                             <x-todo-item :label="$item->todo" :id="$item->id" :done="$item->isDone" class=" basis-full" />

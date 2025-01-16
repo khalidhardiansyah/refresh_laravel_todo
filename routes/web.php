@@ -4,9 +4,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [TodoController::class, 'showAll']);
+Route::get('/', [TodoController::class, 'showAll'])->name('todos.showAll');
 Route::post('/', [TodoController::class, 'storeTodo'])->name('todos.store');
-Route::post('/todo/{id}', [TodoController::class, 'eventAction'])->name('todos.eventAction');
+Route::get('/edit{id}', [TodoController::class, 'showData'])->name('todos.show');
+Route::patch('/edit/{id}',[TodoController::class, 'update'])->name('todos.update');
+Route::post('/{id}',[TodoController::class, 'actionTodos'])->name('todos.eventAction');
+// Route::delete('/{id}', [TodoController::class, 'deleteTodo'])->name('todos.delete');
+// Route::get('/{id}', [TodoController::class, 'showData'])->name('todos.show');
+// Route::patch('/{id}', [TodoController::class, 'checked'])->name('todos.checked');
+
 
 
 Route::get('/dashboard', function () {

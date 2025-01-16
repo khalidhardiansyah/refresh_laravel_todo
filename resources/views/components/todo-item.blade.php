@@ -7,26 +7,33 @@
         <p class="flex-1 capitalize basis-full text-wrap">
             {{$label}}
         </p>
-        @auth            
-        {{--  --}}
-        <form method="POST" action="{{route('todos.eventAction', $id)}}" class="flex justify-center gap-3 basis-full">
-           @csrf
-
+        @auth           
+        <div class="flex justify-center gap-1 basis-full">
             @if (!$done)
-            <x-primary-button class="bg-green-600 " name="action" value="edit">
+            <x-primary-button onclick="window.location='{{route('todos.show', $id)}}'"  type="button" class="bg-green-600 " name="action" value="edit">
                 <x-edit-icon />
             </x-primary-button>
-            <x-primary-button name="action" value="checked">
-                <x-check-icon />
-            </x-primary-button>
             @endif
-
-            <x-danger-button name="action" value="delete">
-                <x-close-icon />
-            </x-danger-button>
-        </form>
+            <form method="POST"  action="{{route('todos.eventAction', $id)}}">
+                @csrf
+     
+                 @if (!$done)
+                
+                 
+                 <x-primary-button name="action" value="checked">
+                     <x-check-icon />
+                 </x-primary-button>
+                 @endif
+     
+                 <x-danger-button name="action" value="delete">
+                     <x-close-icon />
+                 </x-danger-button>
+             </form>
+        </div> 
         @endauth
 
     </div>
+
+
 
 </div>
