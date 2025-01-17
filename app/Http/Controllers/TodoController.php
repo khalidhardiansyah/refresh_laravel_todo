@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TodoController extends Controller
 {
-    public function showAll() : View {
+    public function showAll(User $user) : View {
+
+        // Todo::all()->where('user_id','=',auth()->user()->id)
+
         return view('welcome', [
             'todos' =>Todo::all(),
-            'todo' => null
+            'todo' => null,
+            'todoUser' => auth()->user() ? $user->find(auth()->user()->id)->todos: null
         ]);
     }
 
@@ -21,7 +26,7 @@ class TodoController extends Controller
             'activity' => 'required|min:4',
         ]);
         $todo->todo = $validated['activity'];
-        $todo->user_id = 1;
+        $todo->user_id = auth()->user()->id;
         $todo->save($validated);
          return redirect()->route('todos.showAll');
     }
@@ -33,6 +38,7 @@ class TodoController extends Controller
         } else if($action === 'checked') {
             return $this->checked($id);
         }
+        return redirect('/');
         
     }
 

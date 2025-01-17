@@ -1,3 +1,6 @@
+@php
+    $open = false
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -20,34 +23,61 @@
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
     <div class="grid place-content-center bg-gray-50 text-black/80 dark:bg-black dark:text-white/50 min-h-dvh">
         <div class="px-6 py-10 space-y-3">
-            
+
             <h1 class="mb-5 text-3xl text-center">All Todo List</h1>
-            
-            <form method="POST" action="{{$todo?route('todos.update', $todo->id):route('todos.store')}}">
+
+            <form method="POST" action="{{ $todo ? route('todos.update', $todo->id) : route('todos.store') }}">
 
                 @if ($todo)
                     @method('PATCH')
                 @endif
                 @csrf
-                <x-text-input type="text" name="activity" placeholder="Masukan aktivitas" value="{{ old('todo', $todo ? $todo->todo : '') }}"/>
-                <x-primary-button type="submit">
-                    submit
-                </x-primary-button>
+                <x-text-input type="text" name="activity" placeholder="Masukan aktivitas"
+                    value="{{ old('todo', $todo ? $todo->todo : '') }}" />
+              
+                    <x-primary-button type="submit">
+                        submit
+                    </x-primary-button>
 
-                <x-input-error :messages="$errors->all()"/>
+                    
+                
+                
+               
+                
+
+                <x-input-error :messages="$errors->all()" />
             </form>
+            
+            @auth
+                
+            <form action="{{route('logout')}}" method="post">
+                @csrf
+                <x-danger-button type="submit">
+                    logout
+                </x-danger-button> 
+            </form>
+            @endauth
 
             <div
-                class="flex flex-col items-stretch p-5 overflow-scroll bg-blue-300 rounded-md min-h-96 min-w-96 gap-y-4">
+                class="flex flex-col items-stretch p-5 overflow-scroll bg-blue-300 rounded-md min-h-64 max-h-80 min-w-96 max-w-96 gap-y-4">
                 <ul class="space-y-4">
-                    
-                  
-                    
+
+
+                   @auth
+                   @foreach ($todoUser as $item)
+                   <x-todo-item :label="$item->todo" :id="$item->id" :done="$item->isDone" class=" basis-full" />
+                   @endforeach
+                   @endauth  
+                   
+                    @unless (Auth::check())
                     @foreach ($todos as $item)
-                        <li>
-                            <x-todo-item :label="$item->todo" :id="$item->id" :done="$item->isDone" class=" basis-full" />
-                        </li>
-                    @endforeach
+                    <x-todo-item :label="$item->todo" :id="$item->id" :done="$item->isDone" class=" basis-full" />
+                    @endforeach 
+                    @endunless
+
+                    
+
+                    
                 </ul>
 
 
