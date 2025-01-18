@@ -20,9 +20,9 @@
     @endif
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50">
-    <div class="grid place-content-center bg-gray-50 text-black/80 dark:bg-black dark:text-white/50 min-h-dvh">
-        <div class="px-6 py-10 space-y-3">
+<body class="font-sans antialiased">
+    <div class="grid w-full px-6 py-10 space-y-3 bg-gray-500 min-h-dvh sm:place-content-center text-black/80">
+        <div class="w-full space-y-3">
 
             <h1 class="mb-5 text-3xl text-center">All Todo List</h1>
 
@@ -59,11 +59,18 @@
             @endauth
 
             <div
-                class="flex flex-col items-stretch p-5 overflow-scroll bg-blue-300 rounded-md min-h-64 max-h-80 min-w-96 max-w-96 gap-y-4">
+                class="flex flex-col items-stretch min-w-full p-5 overflow-y-auto bg-blue-300 rounded-md sm:min-h-64 max-h-80 sm:min-w-96 max-w-96 gap-y-4">
                 <ul class="space-y-4">
 
 
-                   @auth
+                   @auth                   
+                   @if ($todoUser->isEmpty())
+                   
+                   <span>
+                    Belum ada aktivitas
+                   </span>
+                   
+                   @endif
                    @foreach ($todoUser as $item)
                    <x-todo-item :label="$item->todo" :id="$item->id" :done="$item->isDone" class=" basis-full" />
                    @endforeach

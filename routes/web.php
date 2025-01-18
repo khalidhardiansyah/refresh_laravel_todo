@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TodoController::class, 'showAll'])->name('todos.showAll');
 Route::post('/', [TodoController::class, 'storeTodo'])->name('todos.store')->middleware(['auth', 'verified']);
-Route::get('/edit{id}', [TodoController::class, 'showData'])->name('todos.show');
-Route::patch('/edit/{id}',[TodoController::class, 'update'])->name('todos.update');
-Route::post('/action/{id}',[TodoController::class, 'actionTodos'])->name('todos.eventAction');
+Route::get('/edit/{id}', [TodoController::class, 'showData'])->name('todos.show')->middleware(['auth', 'verified']);
+Route::patch('/edit/{id}',[TodoController::class, 'update'])->name('todos.update')->middleware(['auth', 'verified']);
+Route::post('/action/{id}',[TodoController::class, 'actionTodos'])->name('todos.eventAction')->middleware(['auth', 'verified']);
 
 
 Route::get('/dashboard', function () {
