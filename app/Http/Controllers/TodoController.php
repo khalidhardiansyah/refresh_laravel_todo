@@ -12,9 +12,6 @@ use Illuminate\View\View;
 class TodoController extends Controller
 {
     public function showAll(User $user) : View {
-
-        // Todo::all()->where('user_id','=',auth()->user()->id)
-
         return view('welcome', [
             'todos' =>Todo::all(),
             'todo' => NULL,
@@ -39,7 +36,7 @@ class TodoController extends Controller
         } else if($action === 'checked') {
             return $this->checked($id);
         }
-        return redirect('/');
+        return redirect('/',400)->with('status','action tidak ditemukan');
         
     }
 
